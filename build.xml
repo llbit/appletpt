@@ -1,0 +1,28 @@
+<project name="PTApplet" default="run">
+	<property name="bin.dir" location="${basedir}/ant-bin" />
+	<property name="src.dir" location="${basedir}/src" />
+	<target name="clean">
+		<delete dir="${bin.dir}"/>
+	</target>
+	<target name="build">
+		<mkdir dir="${bin.dir}"/>
+		<javac destdir="${bin.dir}"
+			debug="true"
+			source="1.6"
+			target="1.6"
+			includeantruntime="false">
+			<src path="${src.dir}"/>
+		</javac>
+	</target>
+	<target name="jar" depends="build">
+		<jar destfile="${basedir}/appletpt.jar">
+			<fileset dir="${bin.dir}"/>
+			<manifest>
+				<attribute name="Main-Class" value="appletpt.PT"/>
+			</manifest>
+		</jar>
+	</target>
+	<target name="run" depends="build">
+		<java classpath="${bin.dir}" classname="appletpt.PT" fork="true"/>
+	</target>
+</project>
