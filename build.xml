@@ -7,7 +7,7 @@
 	<target name="build">
 		<mkdir dir="${bin.dir}"/>
 		<javac destdir="${bin.dir}"
-			debug="true"
+			debug="false"
 			source="1.6"
 			target="1.6"
 			includeantruntime="false">

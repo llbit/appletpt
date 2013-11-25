@@ -36,7 +36,7 @@ public class PT extends JApplet {
 
 	private static final int NUM_WORKERS = Runtime.getRuntime().availableProcessors();
 	protected static final double CAMERA_DISTANCE = 10;
-	protected static final int IMAGE_SIZE = 400;
+	protected static final int IMAGE_SIZE = 350;
 	protected static final double INV_IMG_SIZE = 1.0/IMAGE_SIZE;
 	protected static final double FOV = Math.PI*.5;
 	protected static final double TAN_FOV = 2*Math.tan(FOV*.5);
@@ -163,10 +163,10 @@ public class PT extends JApplet {
 
 
 		int text[][] = {
-				{ 1, 0, 1, 0, 1, 0, 0, 2, 0, 1, 0 },
-				{ 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1 },
-				{ 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0 },
-				{ 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1 },
+				{ 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1 },
+				{ 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1 },
+				{ 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0 },
+				{ 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 2 },
 		};
 		double x0 = 5;
 		for (int i = 0; i < text.length; ++i) {
@@ -340,7 +340,9 @@ public class PT extends JApplet {
 			Geom geom = isect.geom;
 			synchronized (renderLock) {
 				geom.setEmittance((geom.emittance != 0)?0:1);
-				refresh = true;
+				if (emittersMod != 0) {
+					refresh = true;
+				}
 			}
 		}
 	}
