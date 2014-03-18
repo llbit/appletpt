@@ -112,7 +112,7 @@ public class Cube extends Geom {
 			}
 		}
 
-		if (tNear < tFar && tFar >= 0 && tNear < isect.t) {
+		if (tNear < tFar && tNear >= 0 && tNear < isect.t) {
 			isect.t = tNear;
 			isect.n.set(nx, ny, nz);
 			isect.geom = this;
