@@ -35,8 +35,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 public class PT extends JApplet {
 
 	private static final int NUM_WORKERS = Runtime.getRuntime().availableProcessors();
-	protected static final double CAMERA_DISTANCE = 10;
-	protected static final int IMAGE_SIZE = 350;
+	protected static final double CAMERA_DISTANCE = 5;
+	protected static final int IMAGE_SIZE = 400;
 	protected static final double INV_IMG_SIZE = 1.0/IMAGE_SIZE;
 	protected static final double FOV = Math.PI*.5;
 	protected static final double TAN_FOV = 2*Math.tan(FOV*.5);
@@ -68,6 +68,8 @@ public class PT extends JApplet {
 
 	protected double cos_t;
 	protected double sin_t;
+
+	protected int gen = 0;
 
 	public static void main(String[] args) {
 		final PT pt = new PT();
@@ -241,6 +243,7 @@ public class PT extends JApplet {
 						time = System.nanoTime();
 						nextJob.set(0);
 						synchronized (renderLock) {
+							gen += 1;
 							renderLock.notifyAll();
 						}
 						barrier.await();

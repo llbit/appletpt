@@ -32,17 +32,23 @@ public class Worker extends Thread {
 	public void run() {
 		try {
 			while (!isInterrupted()) {
-				int next = pt.nextJob.getAndIncrement();
-				if (next >= PT.IMAGE_SIZE) {
-					pt.barrier.await();
-					synchronized (pt.renderLock) {
-						while (pt.nextJob.get() >= PT.IMAGE_SIZE) {
-							pt.renderLock.wait();
+				int next;
+				int gen = pt.gen;
+				while (true) {
+					next = pt.nextJob.getAndIncrement();
+					if (next < PT.IMAGE_SIZE) {
+						break;
+					} else {
+						pt.barrier.await();
+						synchronized (pt.renderLock) {
+							while (gen == pt.gen) {
+								pt.renderLock.wait();
+							}
+							gen = pt.gen;
 						}
 					}
-				} else {
-					trace(next);
 				}
+				trace(next);
 			}
 		} catch (InterruptedException e) {
 		} catch (BrokenBarrierException e) {
