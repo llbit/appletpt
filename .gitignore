@@ -1,5 +1,7 @@
+/.idea/
 /.gradle/
 /build/
 /bin/
-/ant-bin/
-/appletpt.jar
+
+/*.jar
+/*.iml
