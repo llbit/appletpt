@@ -158,8 +158,8 @@ public class PathTracer extends Application implements Initializable {
             }
             //System.out.println(String.format("frame took %.3fms", ms));
           }
-        } catch (InterruptedException e) {
-        } catch (BrokenBarrierException e) {
+        } catch (InterruptedException | BrokenBarrierException ignored) {
+          // Ignored.
         }
       }
     };
@@ -178,7 +178,8 @@ public class PathTracer extends Application implements Initializable {
               }
             }
           }
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
+          // Ignored.
         }
       }
     };
@@ -231,7 +232,7 @@ public class PathTracer extends Application implements Initializable {
     loader.setController(this);
     Parent root = loader.load();
 
-    stage.setOnCloseRequest(event -> {
+    stage.setOnHiding(event -> {
       synchronized (renderLock) {
         stopped = true;
       }
@@ -240,10 +241,6 @@ public class PathTracer extends Application implements Initializable {
       }
       renderThread.interrupt();
       sppThread.interrupt();
-      try {
-        renderThread.join();
-      } catch (InterruptedException e) {
-      }
     });
     Scene scene = new Scene(root);
     stage.setScene(scene);
@@ -344,7 +341,7 @@ public class PathTracer extends Application implements Initializable {
   /**
    * @param ray  ray to modify
    * @param n    intersection normal
-   * @param rand
+   * @param rand random number generator
    */
   public static void diffuseReflection(Ray ray, Vector3 n, Random rand) {
     double x1 = rand.nextDouble();
